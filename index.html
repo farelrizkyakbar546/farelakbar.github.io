@@ -585,6 +585,173 @@
         .delay-700 { transition-delay: 700ms; }
         .delay-800 { transition-delay: 800ms; }
         .delay-900 { transition-delay: 900ms; }
+
+        /* ========== MODAL STYLES ========== */
+        .case-study-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            transition: opacity 0.3s ease;
+        }
+
+        .case-study-modal.active {
+            display: flex;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            width: 100%;
+            max-width: 900px;
+            max-height: 85vh;
+            overflow-y: auto;
+            background: var(--ivory);
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: modalSlideUp 0.4s ease;
+        }
+
+        @keyframes modalSlideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background: var(--ivory);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .modal-close {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: transparent;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--gold);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--gold);
+            color: var(--ivory);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .case-study-hero {
+            width: 100%;
+            height: 300px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .case-study-hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: var(--taupe);
+        }
+
+        .case-study-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .case-study-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--gold);
+            display: inline-block;
+        }
+
+        .technical-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .detail-item {
+            padding: 1rem;
+            background: rgba(212, 175, 55, 0.05);
+            border-radius: 4px;
+            border-left: 3px solid var(--gold);
+        }
+
+        .detail-label {
+            font-size: 0.8rem;
+            color: var(--charcoal);
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.25rem;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        /* Scrollbar styling for modal */
+        .modal-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .modal-content::-webkit-scrollbar-track {
+            background: var(--taupe);
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 3px;
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                max-height: 90vh;
+            }
+            
+            .modal-header {
+                padding: 1rem;
+            }
+            
+            .modal-body {
+                padding: 1.5rem;
+            }
+            
+            .case-study-hero {
+                height: 200px;
+            }
+            
+            .technical-details {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
     
     <script>
@@ -918,10 +1085,10 @@
                         <div>
                             <div class="flex justify-between mb-3">
                                 <span class="font-medium">Adobe Creative Suite</span>
-                                <span class="font-semibold gold-text">85%</span>
+                                <span class="font-semibold gold-text">70%</span>
                             </div>
                             <div class="skill-bar">
-                                <div class="skill-fill" data-width="85"></div>
+                                <div class="skill-fill" data-width="70"></div>
                             </div>
                             <p class="text-sm text-charcoal/60 mt-2">Photoshop, Illustrator, After Effects</p>
                         </div>
@@ -951,10 +1118,10 @@
                         <div>
                             <div class="flex justify-between mb-3">
                                 <span class="font-medium">Typography & Layout</span>
-                                <span class="font-semibold gold-text">88%</span>
+                                <span class="font-semibold gold-text">80%</span>
                             </div>
                             <div class="skill-bar">
-                                <div class="skill-fill" data-width="88"></div>
+                                <div class="skill-fill" data-width="80"></div>
                             </div>
                             <p class="text-sm text-charcoal/60 mt-2">Advanced composition skills</p>
                         </div>
@@ -1364,10 +1531,12 @@
                             <span class="project-tag bg-taupe">Adobe Illustrator</span>
                         </div>
                         
-                        <a href="#" class="inline-flex items-center gap-2 text-gold font-medium hover:gap-4 transition-all">
+                        <!-- UPDATED: Changed to open modal -->
+                        <button onclick="openCaseStudy('coffee')" 
+                                class="inline-flex items-center gap-2 text-gold font-medium hover:gap-4 transition-all">
                             <span class="tracking-wider">VIEW CASE STUDY</span>
                             <i class="fas fa-arrow-right"></i>
-                        </a>
+                        </button>
                     </div>
                 </div>
                 
@@ -1419,112 +1588,91 @@
                             <span class="project-tag bg-taupe">Adobe Photoshop</span>
                         </div>
                         
-                        <a href="#" class="inline-flex items-center gap-2 text-gold font-medium hover:gap-4 transition-all">
+                        <!-- UPDATED: Changed to open modal -->
+                        <button onclick="openCaseStudy('travel')" 
+                                class="inline-flex items-center gap-2 text-gold font-medium hover:gap-4 transition-all">
                             <span class="tracking-wider">VIEW CASE STUDY</span>
                             <i class="fas fa-arrow-right"></i>
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
             
-            <!-- NOVEL BOX - UPDATED VERSION (Option 1 + Website Link) -->
-            <div class="max-w-3xl mx-auto mb-20 fade-in-up visible">
-              <div class="luxury-card p-12 novel-box hover:border-amber-400/30 transition duration-300">
-                <div class="flex flex-col lg:flex-row items-center gap-10">
+           <!-- NOVEL BOX - PERFECT FINAL VERSION (ENGLISH) -->
+<div class="max-w-3xl mx-auto mb-20 fade-in-up visible">
+  <div class="luxury-card p-12 novel-box">
+    <div class="flex flex-col lg:flex-row items-center gap-10">
 
-                  <!-- Novel Visual - Unsplash Coffee Shop -->
-                  <div class="lg:w-1/3 text-center">
-                    <a href="https://mycoffeehaven.github.io/" target="_blank" class="group block">
-                      <div class="w-48 h-64 mx-auto shadow-xl mb-3 relative overflow-hidden rounded-lg group-hover:shadow-2xl group-hover:scale-[1.02] transition duration-300">
-                        <img 
-                          src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-                          alt="Coffee Haven - Novel Reading Website"
-                          class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-amber-900/50 to-transparent"></div>
-                        <div class="absolute bottom-4 left-4 right-4">
-                          <h4 class="text-white text-lg font-semibold drop-shadow">Coffee Haven</h4>
-                          <p class="text-white/90 text-sm drop-shadow">Reading Platform</p>
-                        </div>
-                        
-                        <!-- Website Badge -->
-                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-amber-800 text-xs px-3 py-1 rounded-full font-medium">
-                          LIVE WEBSITE
-                        </div>
-                      </div>
-                    </a>
-                    
-                    <p class="text-xs text-charcoal/50 italic">
-                      Click cover to visit reading website
-                    </p>
-                  </div>
-
-                  <!-- Novel Description -->
-                  <div class="lg:w-2/3">
-                    <div class="flex items-center gap-4 mb-6">
-                      <div class="w-12 h-12 border border-amber-600/30 rounded-full flex items-center justify-center bg-gradient-to-br from-amber-50 to-amber-100">
-                        <i class="fas fa-globe text-xl text-amber-700"></i>
-                      </div>
-                      <div>
-                        <h3 class="text-2xl font-semibold">Aroma Kopi, Rasa Kenangan</h3>
-                        <div class="flex items-center gap-3 mt-1">
-                          <span class="text-amber-700 font-medium">Dedicated Reading Website</span>
-                          <span class="text-charcoal/40">•</span>
-                          <a href="https://mycoffeehaven.github.io/" target="_blank" class="text-sm text-blue-600 hover:text-blue-800 transition flex items-center gap-1">
-                            <i class="fas fa-external-link-alt text-xs"></i>
-                            mycoffeehaven.github.io
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-
-                    <p class="text-charcoal/70 leading-relaxed mb-6">
-                      "Aroma Kopi, Rasa Kenangan" mengisahkan Rei, barista muda pendiam, dan Arletta, 
-                      wanita dewasa yang membawa luka dari masa lalu. Pertemuan mereka terjadi tanpa rencana 
-                      — di sebuah kafe yang menyimpan lebih banyak cerita daripada yang terlihat.
-                    </p>
-
-                    <p class="text-charcoal/60 leading-relaxed mb-8">
-                      Melalui rutinitas sederhana, percakapan singkat, dan secangkir kopi yang selalu diseduh 
-                      dengan cara yang sama, keduanya perlahan belajar membuka diri. Tanpa konflik besar atau 
-                      drama berlebihan, novel ini berfokus pada bagaimana perasaan tumbuh secara pelan, 
-                      bagaimana kenangan tidak selalu menyakitkan, dan bagaimana kehadiran seseorang bisa 
-                      menjadi rumah, meski tanpa janji apa pun.
-                    </p>
-
-                    <div class="flex flex-wrap gap-4 mb-8">
-                      <span class="project-tag bg-amber-50 text-amber-800">Slice of Life</span>
-                      <span class="project-tag bg-amber-50 text-amber-800">Romance</span>
-                      <span class="project-tag bg-amber-50 text-amber-800">Drama</span>
-                      <span class="project-tag bg-amber-50 text-amber-800">Indonesian Literature</span>
-                    </div>
-
-                    <div class="flex flex-col sm:flex-row gap-4">
-                      <a href="https://mycoffeehaven.github.io/"
-                         target="_blank"
-                         class="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-amber-600 to-amber-700 text-white hover:from-amber-700 hover:to-amber-800 transition duration-300 rounded-lg shadow-lg hover:shadow-xl">
-                        <i class="fas fa-external-link-alt"></i>
-                        <span class="font-medium">Visit Reading Website</span>
-                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition"></i>
-                      </a>
-                      
-                      <a href="https://github.com/mycoffeehaven/mycoffeehaven.github.io"
-                         target="_blank"
-                         class="inline-flex items-center justify-center gap-3 px-8 py-4 border border-charcoal/20 text-charcoal/70 hover:border-amber-300 hover:text-amber-700 hover:bg-amber-50/50 transition duration-300 rounded-lg">
-                        <i class="fab fa-github"></i>
-                        <span>View Source Code</span>
-                      </a>
-                    </div>
-                    
-                    <!-- Small note -->
-                    <p class="text-xs text-charcoal/40 mt-6 text-center">
-                      This project demonstrates full-cycle creation: from writing to web development to deployment
-                    </p>
-                  </div>
-
-                </div>
-              </div>
+      <!-- Novel Visual - Coffee Shop Aesthetic -->
+      <div class="lg:w-1/3 text-center">
+        <a href="https://mycoffeehaven.github.io/" target="_blank" class="group block">
+          <div class="w-48 h-64 mx-auto shadow-xl mb-3 relative overflow-hidden rounded-lg group-hover:shadow-2xl transition duration-300">
+            <img 
+              src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+              alt="Coffee Haven Reading Website"
+              class="w-full h-full object-cover"
+              loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4">
+              <h4 class="text-white text-lg font-semibold drop-shadow">Coffee Haven</h4>
+              <p class="text-white/90 text-sm drop-shadow">Reading Platform</p>
             </div>
-            
+          </div>
+        </a>
+        
+        <p class="text-xs text-charcoal/50 italic mt-2">
+          Click cover to visit dedicated reading website
+        </p>
+      </div>
+
+      <!-- Novel Description -->
+      <div class="lg:w-2/3">
+        <div class="flex items-center gap-4 mb-6">
+          <div class="w-12 h-12 border border-amber-600/30 rounded-full flex items-center justify-center bg-amber-50">
+            <i class="fas fa-book text-xl text-amber-700"></i>
+          </div>
+          <div>
+            <h3 class="text-2xl font-semibold">Aroma Kopi, Rasa Kenangan</h3>
+            <p class="text-amber-700 font-medium">Dedicated Reading Website · 2024</p>
+          </div>
+        </div>
+
+        <p class="text-charcoal/70 leading-relaxed mb-6">
+          "Aroma Kopi, Rasa Kenangan" tells the story of Rei, a quiet young barista, 
+          and Arletta, an older woman carrying wounds from her past. Their encounter happens without 
+          planning—in a café that holds more stories than what meets the eye.
+        </p>
+
+        <p class="text-charcoal/60 leading-relaxed mb-8">
+          This novel is available through a custom-built digital reading platform designed for a 
+          comfortable and immersive reading experience—showcasing both web design capabilities 
+          and storytelling craft in one integrated project.
+        </p>
+
+        <div class="flex flex-wrap gap-4 mb-8">
+          <span class="project-tag bg-amber-50 text-amber-800">Slice of Life</span>
+          <span class="project-tag bg-amber-50 text-amber-800">Romance</span>
+          <span class="project-tag bg-amber-50 text-amber-800">Drama</span>
+          <span class="project-tag bg-amber-50 text-amber-800">Literary Fiction</span>
+        </div>
+
+        <div class="text-center">
+          <a href="https://mycoffeehaven.github.io/"
+             target="_blank"
+             class="inline-flex items-center justify-center gap-3 px-10 py-4 bg-amber-600 text-white hover:bg-amber-700 transition duration-300 rounded-lg shadow-lg hover:shadow-xl mx-auto">
+            <i class="fas fa-external-link-alt"></i>
+            <span class="font-medium">Visit Reading Website</span>
+          </a>
+          
+          <p class="text-xs text-charcoal/40 mt-4">
+            Experience the complete novel through this custom-built platform
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
             <!-- Design Philosophy -->
             <div class="max-w-3xl mx-auto fade-in-up visible">
                 <div class="luxury-card p-12 border-l-4 border-gold">
@@ -1865,6 +2013,21 @@
             </div>
         </div>
     </footer>
+
+    <!-- ========== CASE STUDY MODAL ========== -->
+    <div id="caseStudyModal" class="case-study-modal">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 id="modalTitle" class="heading-font text-2xl font-semibold">Case Study</h2>
+                <button id="modalClose" class="modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
     
     <!-- JavaScript -->
     <script>
@@ -2155,6 +2318,165 @@
                 }
             });
         }
+
+        // ========== CASE STUDY MODAL FUNCTIONALITY ==========
+        const caseStudyModal = document.getElementById('caseStudyModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        const modalClose = document.getElementById('modalClose');
+
+        // Case Study Data (in English as requested)
+        const caseStudies = {
+            coffee: {
+                title: "Coffee Culture Campaign",
+                year: "2023",
+                type: "Conceptual Design Series",
+                tools: ["Canva Pro", "Visual Analysis", "Digital Manipulation"],
+                overview: "A professional coffee advertisement poster created in Canva to prove that web-based design tools can achieve Photoshop-level quality through proper asset manipulation and technical understanding.",
+                challenge: "Reconstructing professional-grade Photoshop advertisement aesthetics into Canva platform constraints while maintaining visual depth, motion effects, and premium quality.",
+                process: [
+                    "Structural foundation with gradient background and U-shape framing",
+                    "Product manipulation with 18° rotation and Fresco filter application",
+                    "Depth creation using 70% transparency drop shadows",
+                    "Motion simulation with horizontal-flipped coffee splash",
+                    "Depth of field with 60% Capri filter blur on coffee beans",
+                    "Typography pairing of Alex Brush (artistic) and Montserrat (professional)"
+                ],
+                outcome: "A 1000x1000px cold coffee advertisement poster with professional visual quality indistinguishable from Photoshop work, demonstrating that creative technique outweighs platform limitations.",
+                image: "images/1_posterkopi.png",
+                technical: {
+                    "Platform": "Canva Pro",
+                    "Dimensions": "1000 × 1000 pixels",
+                    "Rotation": "18° clockwise",
+                    "Shadow Opacity": "70%",
+                    "Blur Effect": "60% Capri filter",
+                    "Color Palette": "Warm browns with gold accents"
+                }
+            },
+            travel: {
+                title: "TMII Travel Package Design",
+                year: "2022",
+                type: "Information Design System",
+                tools: ["Adobe Illustrator", "Adobe Photoshop", "Typography"],
+                overview: "A comprehensive travel package poster that transforms complex travel information into a clean, informative, and visually appealing promotional medium with clear information hierarchy.",
+                challenge: "Presenting extensive travel package information (destinations, pricing, schedules) in an intuitive, visually appealing manner without overwhelming potential customers.",
+                process: [
+                    "Layout architecture separating emotional (visual) and rational (information) aspects",
+                    "Hero image section with torn paper effect for texture",
+                    "Circular clipping masks for activity previews",
+                    "Three-column comparative structure for package tiers",
+                    "Blue-toned palette for trust and professionalism",
+                    "UI integration with pill-shaped buttons and icons"
+                ],
+                outcome: "A balanced design combining magazine aesthetics with brochure functionality, successfully guiding customers through package comparison while maintaining visual appeal.",
+                image: "images/2_posterpaketwisata.png",
+                technical: {
+                    "Software": "Adobe Illustrator & Photoshop",
+                    "Layout": "Three-column comparative structure",
+                    "Typography": "Sans-serif bold headlines",
+                    "Color Scheme": "Blue-toned professional palette",
+                    "Visual Elements": "Torn paper texture, circular masks",
+                    "UI Components": "Pill-shaped buttons, bullet points"
+                }
+            }
+        };
+
+        function openCaseStudy(studyId) {
+            const study = caseStudies[studyId];
+            if (!study) return;
+            
+            // Update modal title
+            modalTitle.textContent = study.title;
+            
+            // Build modal content
+            modalBody.innerHTML = `
+                <div class="case-study-hero">
+                    <img src="${study.image}" alt="${study.title}" 
+                         onerror="this.src='https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                </div>
+                
+                <div class="case-study-section">
+                    <div class="flex flex-wrap gap-4 mb-6">
+                        <span class="px-4 py-2 gold-border text-gold">${study.year}</span>
+                        <span class="px-4 py-2 border border-charcoal/20">${study.type}</span>
+                        ${study.tools.map(tool => `<span class="px-4 py-2 bg-taupe/50">${tool}</span>`).join('')}
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold mb-4 gold-accent-line inline-block">Project Overview</h3>
+                    <p class="text-charcoal/70 mb-6">${study.overview}</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <h4 class="font-semibold mb-3 text-lg">The Challenge</h4>
+                            <p class="text-charcoal/70">${study.challenge}</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-3 text-lg">The Outcome</h4>
+                            <p class="text-charcoal/70">${study.outcome}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="case-study-section">
+                    <h3 class="text-xl font-semibold mb-4 gold-accent-line inline-block">Design Process</h3>
+                    <ul class="space-y-3 mb-6">
+                        ${study.process.map(step => `
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-check text-gold mt-1"></i>
+                                <span class="text-charcoal/70">${step}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+                
+                <div class="case-study-section">
+                    <h3 class="text-xl font-semibold mb-4 gold-accent-line inline-block">Technical Details</h3>
+                    <div class="technical-details">
+                        ${Object.entries(study.technical).map(([key, value]) => `
+                            <div class="detail-item">
+                                <div class="detail-label">${key}</div>
+                                <div class="detail-value">${value}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div class="case-study-section">
+                    <h3 class="text-xl font-semibold mb-4 gold-accent-line inline-block">Key Learnings</h3>
+                    <p class="text-charcoal/70">
+                        This project demonstrated that <strong>technical understanding and creative execution</strong> 
+                        are more important than the specific tools used. Through careful manipulation of visual elements, 
+                        typography, and layout principles, professional-quality designs can be achieved regardless of platform.
+                    </p>
+                </div>
+            `;
+            
+            // Show modal
+            caseStudyModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCaseStudy() {
+            caseStudyModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Modal event listeners
+        modalClose.addEventListener('click', closeCaseStudy);
+        
+        // Close modal when clicking outside content
+        caseStudyModal.addEventListener('click', (e) => {
+            if (e.target === caseStudyModal) {
+                closeCaseStudy();
+            }
+        });
+
+        // Close modal with ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && caseStudyModal.classList.contains('active')) {
+                closeCaseStudy();
+            }
+        });
 
         // Console greeting
         console.log('%c✨ FAREL AKBAR - PREMIUM PORTFOLIO ✨', 'color: #D4AF37; font-size: 18px; font-weight: bold;');
